@@ -10,7 +10,9 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MoviesApiTest {
     private static final String BASE = "http://localhost:8080";
@@ -87,12 +89,7 @@ public class MoviesApiTest {
     @Test
     void postMovie_whenValid_returnsCreatedMovie() throws Exception {
 
-        String json = """
-                {
-                  "title":"Interstellar",
-                  "year":2014
-                }
-                """;
+        String json = "{\"title\":\"Interstellar\",\"year\":2014}";
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -115,12 +112,7 @@ public class MoviesApiTest {
     @Test
     void postMovie_whenTitleIsEmpty_returnsValidationError() throws Exception {
 
-        String json = """
-                {
-                  "title":"",
-                  "year":2014
-                }
-                """;
+        String json = "{\"title\":\"\",\"year\":2014}";
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -144,12 +136,10 @@ public class MoviesApiTest {
 
         String title = "A".repeat(101);
 
-        String json = """
-                {
-                  "title":"%s",
-                  "year":2014
-                }
-                """.formatted(title);
+        String json = String.format(
+                "{\"title\":\"%s\",\"year\":2014}",
+                title
+        );
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -171,12 +161,7 @@ public class MoviesApiTest {
     @Test
     void postMovie_whenYearInvalid_returnsValidationError() throws Exception {
 
-        String json = """
-                {
-                  "title":"Interstellar",
-                  "year":1800
-                }
-                """;
+        String json = "{\"title\":\"Interstellar\",\"year\":1800}";
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -198,12 +183,7 @@ public class MoviesApiTest {
     @Test
     void postMovie_whenContentTypeInvalid_returns415() throws Exception {
 
-        String json = """
-                {
-                  "title":"Interstellar",
-                  "year":2014
-                }
-                """;
+        String json = "{\"title\":\"Interstellar\",\"year\":2014}";
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -220,10 +200,7 @@ public class MoviesApiTest {
     @Test
     void postMovie_whenJsonInvalid_returns422() throws Exception {
 
-        String json = """
-                {
-                  "title":
-                """;
+        String json = "{\"title\":";
 
         HttpRequest req = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -242,12 +219,7 @@ public class MoviesApiTest {
     @Test
     void getMovieById_whenExists_returnsMovie() throws Exception {
 
-        String json = """
-                {
-                  "title":"Interstellar",
-                  "year":2014
-                }
-                """;
+        String json = "{\"title\":\"Interstellar\",\"year\":2014}";
 
         HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
@@ -309,12 +281,7 @@ public class MoviesApiTest {
     @Test
     void deleteMovie_whenExists_returns204() throws Exception {
 
-        String json = """
-                {
-                  "title":"Interstellar",
-                  "year":2014
-                }
-                """;
+        String json = "{\"title\":\"Interstellar\",\"year\":2014}";
 
         HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/movies"))
