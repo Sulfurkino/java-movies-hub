@@ -21,7 +21,7 @@ public class MoviesApiTest {
 
     @BeforeAll
     static void beforeAll() {
-        server = new MoviesServer();
+        server = new MoviesServer(new MoviesStore(), 8080);
         server.start();
         client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(2))
