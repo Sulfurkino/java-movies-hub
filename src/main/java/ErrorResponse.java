@@ -1,9 +1,7 @@
-package ru.practicum.moviehub.api;
-
 import java.util.List;
 
 public class ErrorResponse {
-    private final String error;
+    private String error;
     private List<String> details;
 
     public ErrorResponse(String error) {

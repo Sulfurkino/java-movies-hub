@@ -1,5 +1,3 @@
-package ru.practicum.moviehub.model;
-
 public class Movie {
     private int id;
     private String title;
