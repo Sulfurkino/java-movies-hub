@@ -10,9 +10,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MoviesApiTest {
     private static final String BASE = "http://localhost:8080";
@@ -74,9 +72,9 @@ public class MoviesApiTest {
                 client.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
         assertEquals(200, resp.statusCode());
-
-        assertEquals(
-                "application/json; charset=UTF-8",
+        final String appJsonChUTF8 = "application/json; charset=UTF-8";
+        assertEquals(appJsonChUTF8
+                ,
                 resp.headers().firstValue("Content-Type").orElse("")
         );
 
@@ -101,6 +99,15 @@ public class MoviesApiTest {
                 client.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
         assertEquals(201, resp.statusCode());
+
+        String contentTypeHeaderValue =
+                resp.headers().firstValue("Content-Type").orElse("");
+
+        assertEquals(
+                "application/json; charset=UTF-8",
+                contentTypeHeaderValue,
+                "Content-Type должен содержать формат данных и кодировку"
+        );
 
         String body = resp.body();
 
