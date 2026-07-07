@@ -73,8 +73,7 @@ public class MoviesApiTest {
 
         assertEquals(200, resp.statusCode());
         final String appJsonChUTF8 = "application/json; charset=UTF-8";
-        assertEquals(appJsonChUTF8
-                ,
+        assertEquals(appJsonChUTF8,
                 resp.headers().firstValue("Content-Type").orElse("")
         );
 
